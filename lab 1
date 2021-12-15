@@ -1,0 +1,30 @@
+create table Moviess(mname varchar(20) primary key, branch varchar(20));
+create table crew(crew_no int, name varchar(20), strength int, sector int, primary key(crew_no,name));
+create table place(mname varchar(20), location varchar(20), primary key(mname, location), foreign key(mname) references movies(mname));
+insert into movies values('Mobius','Marvel');
+insert into movies values('batman','DC');
+insert into movies values('Superman','DC');
+insert into movies values('Aquaman','DC');
+insert into movies values('Captain America','Marvel');
+select * from movies;
+insert into crew values('1','bipul','50','5');
+insert into crew values('2','binod','10','6');
+insert into crew values('3','bikas','20','7');
+insert into crew values('4','aniket','30','8');
+insert into crew values('5','pranjal','50','9');
+select * from crew;
+insert into place values('Mobius','haryana');
+insert into place values('batman','delhi');
+insert into place values('Superman','bihar');
+insert into place values('Aquaman','UP');
+insert into place values('Captain America','karnataka');
+select * from place;
+
+select mname
+from movies
+where mname not in(select name from crew);
+
+select name
+from crew
+where strength >=all(select strength from crew);
+
