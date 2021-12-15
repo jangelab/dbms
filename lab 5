@@ -1,0 +1,30 @@
+create table Owner_of_dog(name varchar(20), ssn varchar(20) primary key, address varchar(20));
+create table Dog(ssn varchar(10), d_name varchar(10), primary key(ssn,d_name), gender varchar (20),foreign key(ssn) references Owner_of_dog(ssn),  dop DATE);
+
+insert into Owner_of_dog values('binod','5','thamil');
+insert into Owner_of_dog values('bipul','10','delhi');
+insert into Owner_of_dog values('faijan','15','mumbayi');
+insert into Owner_of_dog values('bikas','20','kolkata');
+insert into Owner_of_dog values('gaurav','25','haryana');
+select * from Owner_of_dog;
+
+insert into Dog values('5','puppy','M','01-Jan-2001');
+insert into Dog values('10','rocky','F','02-Jan-2002');
+insert into Dog values('15','jimmy','M','03-Jan-2003');
+insert into Dog values('20','toney','F','04-Jan-2004');
+insert into Dog values('25','binload','M','05-Jan-2005');
+select * from Dog;
+
+        SELECT D.d_name,D.dop,D.gender,O.name 
+	FROM Dog D,owner_of_dog O
+	WHERE (O.ssn = D.ssn AND O.name ='binod');
+
+       
+
+        SELECT O.name 
+	FROM Owner_of_dog O
+	WHERE O.ssn NOT IN(
+		SELECT D.ssn FROM dog D,Owner_of_dog O
+		WHERE (O.ssn = D.ssn)
+		);
+
