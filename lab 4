@@ -1,0 +1,27 @@
+create table Owner(ssn varchar(20) primary key, name varchar(20), address varchar(20));
+create table car(rg_no int primary key, model varchar(10), colour varchar(10), ssn varchar(20), foreign key(ssn) references Owner(ssn), dop DATE);
+insert into Owner values('1','Bipul','Banglore');
+insert into Owner values('2','Paranjal','Delhi');
+insert into Owner values('3','Binod','Patna');
+insert into Owner values('4','Aniket','Kolkata');
+insert into Owner values('5','Vivek','Punjab');
+select * from Owner;
+
+insert into car values('50','Toyata','red','1','01-Jan-2001');
+insert into car values('51','Bugati','blue','2','02-Jan-2002');
+insert into car values('52','Lamborgini','black','3','03-Jan-2003');
+insert into car values('53','Audi','white','4','04-Jan-2004');
+insert into car values('54','Tata','black','5','05-Jan-2005');
+insert into car values('55','Tata1','red','5','05-Jan-2005');
+select * from car;
+
+select o.name,count(c.ssn),c.ssn
+from Owner o,car c
+where o.ssn=c.ssn
+group by o.ssn,o.name,c.ssn
+having count(c.ssn)>=all(select count(M.ssn)from car M group by M.ssn) order by c.ssn;
+
+
+SELECT o.ssn,o.name,c.rg_no,c.model
+FROM car c,owner o
+WHERE c.ssn = o.ssn AND dop = '02-Jan-2002';
