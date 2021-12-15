@@ -1,0 +1,42 @@
+create table studio(st_name varchar(20) primary key, branch varchar(20), location varchar(20));
+create table cartoon(sensor_no int primary key, title varchar(20), year number);
+create table star_cast(star_name varchar(20) primary key, address varchar(20));
+create table own_cat(st_name varchar(20), sensor_no int, primary key(st_name,sensor_no), foreign key(st_name) references studio (st_name), foreign key(sensor_no) references cartoon(sensor_no));
+create table voiced_by(star_name varchar(20), sensor_no int, primary key(star_name,sensor_no), foreign key(star_name) references star_cast(star_name), foreign key(sensor_no) references cartoon(sensor_no));
+
+insert into studio values('Marvel-studio', 'Texas', 'USA');
+insert into studio values('Alion-studio', 'Delhi', 'India');
+insert into studio values('DC', 'London', 'England');
+select * from studio;
+
+insert into cartoon values('123456', 'Avengers', '2018');
+insert into cartoon values('780107', 'Chemchy', '2019');
+insert into cartoon values('222444', 'Justice_league', '2020');
+select * from cartoon;
+
+
+insert into star_cast values('RDJ', 'Texas');
+insert into star_cast values('Chris', 'Russia');
+insert into star_cast values('Henry', 'London');
+select * from star_cast;
+
+
+insert into own_cat values('Marvel-studio', '123456');
+insert into own_cat values('Alion-studio', '780107');
+insert into own_cat values('DC', '222444');
+select * from own_cat;
+
+
+insert into voiced_by values('RDJ', '123456');
+insert into voiced_by values('Chris', '780107');
+insert into voiced_by values('Henry', '222444');
+select * from voiced_by;
+
+
+select count(*)
+  2  from cartoon c, voiced_by v
+  3  where c.title='Avengers' and c.sensor_no=v.sensor_no;
+
+select s.st_name,s.location,c.title
+from studio s,cartoon c, own_cat o,voiced_by B
+where s.st_name=o.st_name and c.sensor_no=o.sensor_no and B.star_name='RDJ' and B.sensor_no=c.sensor_no;
