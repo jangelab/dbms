@@ -1,0 +1,64 @@
+CREATE TABLE author
+(
+	aid varchar2(10),	
+	name varchar2(30),
+	city varchar2(20),
+	country varchar2(20),
+	constraint author_pk PRIMARY KEY(aid)
+);
+
+CREATE TABLE publisher
+(
+	pid varchar2(10),	
+	name varchar2(30),
+	city varchar2(20),
+	country varchar2(20),
+	constraint publisher_pk PRIMARY KEY(pid)
+);
+
+CREATE TABLE book
+(
+	bid varchar2(10),
+	aid varchar2(10),
+	pid varchar2(10),
+	title varchar2(20),
+	yop DATE,
+	constraint book_pk PRIMARY KEY(bid),
+	constraint book_fk1 FOREIGN KEY(aid) REFERENCES author(aid),
+	constraint book_fk2 FOREIGN KEY(pid) REFERENCES publisher(pid)
+);
+
+CREATE TABLE orderr
+(
+	oid varchar2(10),
+	constraint orderr_pk PRIMARY KEY(oid)	
+);
+
+CREATE TABLE book_order
+(	
+	oid varchar2(10),
+	bid varchar2(10),
+	constraint book_order_fk1 FOREIGN KEY(oid) REFERENCES orderr(oid),	
+	constraint book_order_fk2 FOREIGN KEY(bid) REFERENCES book(bid)		
+);
+
+INSERT INTO author VALUES ('&aid','&name','&city','&country');
+
+INSERT INTO publisher VALUES ('&pid','&name','&city','&country');
+
+INSERT INTO book VALUES ('&bid','&aid','&pid','&title','&yop');
+
+INSERT INTO orderr VALUES ('&oid');
+
+INSERT INTO book_order VALUES ('&oid','&bid');
+
+SELECT * FROM author;
+
+SELECT * FROM publisher;
+
+SELECT * FROM book;
+
+SELECT * FROM orderr;
+
+SELECT * FROM book_order;
+
