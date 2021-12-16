@@ -1,55 +1,71 @@
-create table Estudio(st_name varchar(20) primary key, branch varchar(20), location varchar(20));
-create table Movie(sensor_no int primary key, title varchar(20), years int);
-create table Stars(star_name varchar(20) primary key, address varchar(20));
-create table owns(st_name varchar(20), sensor int, primary key(st_name,sensor),foreign key(st_name)references Estudio(st_name), foreign key(sensor)references Movie(sensor_no));
-create table Acted_by(star_name varchar(20), sensor_no int, primary key(star_name,sensor_no),foreign key(star_name)references Stars(star_name),foreign key(sensor_no)references Movie(sensor_no));
+CREATE TABLE studio
+(
+	st_name varchar(20),
+	branch varchar(20),
+	location varchar(20),
+	constraint pk22 PRIMARY KEY(st_name)
+);
 
-insert into Estudio values('A','marvel','USA');
-insert into Estudio values('B','marvel','Australia');
-insert into Estudio values('C','marvel','UK');
-insert into Estudio values('D','marvel','China');
-insert into Estudio values('E','marvel','India');
-select * from Estudio;
+CREATE TABLE movie
+(
+	sensor_no varchar(20),
+	title varchar(20),
+	year number(5),
+	constraint pk23 PRIMARY KEY(sensor_no)
+);
 
-insert into Movie values('1','Mobius','2001');
-insert into Movie values('2','Batman','2002');
-insert into Movie values('3','Superman','2003');
-insert into Movie values('4','Aquaman','2004');
-insert into Movie values('5','Captain America','2005');
-select * from Movie;
+CREATE TABLE star
+(
+	star_name varchar(20),
+	address varchar(20),
+	constraint pk24 PRIMARY KEY(star_name)
+);
 
-insert into Stars values('Paras','Haryana');
-insert into Stars values('Defence','Delhi');
-insert into Stars values('Mana','Bihar');
-insert into Stars values('Golem','Up');
-insert into Stars values('File','Karnataka');
-select * from Stars;
+CREATE TABLE owns
+(
+	st_name varchar(20),
+	sensor_no varchar(20),
+	constraint pk25 PRIMARY KEY(st_name,sensor_no),
+	constraint fk21 FOREIGN KEY(st_name) REFERENCES studio(st_name),
+	constraint fk22 FOREIGN KEY(sensor_no) REFERENCES movie(sensor_no)
+);
 
-insert into owns values('A','1');
-insert into owns values('B','2');
-insert into owns values('C','3');
-insert into owns values('D','4');
-insert into owns values('E','5');
-select * from owns;
+CREATE TABLE acted_by
+(
+	star_name varchar(20),
+	sensor_no varchar(20),
+	constraint pk26 PRIMARY KEY(star_name,sensor_no),
+	constraint fk23 FOREIGN KEY(star_name) REFERENCES star(star_name),
+	constraint fk24 FOREIGN KEY(sensor_no) REFERENCES movie(sensor_no)
+);
 
-insert into Acted_by values('Paras','1'); 
-insert into Acted_by values('Defence','2');
-insert into Acted_by values('Mana','3');
-insert into Acted_by values('Golem','4');
-insert into Acted_by values('File','5');
-select * from Acted_by;
+INSERT INTO studio VALUES ('&st_name','&branch','&location');
 
-select E.st_name
-from Estudio E,Movie M,owns o
-where M.title='Mobius' and E.st_name=o.st_name and M.sensor_no=o.sensor;
+INSERT INTO movie VALUES ('&sensor_no','&title',&year);
 
-select S.star_name
-from Stars s,Acted_by A, Movie M
-where M.title='Batman' and S.star_name=A.star_name and M.sensor_no=A.sensor_no;
- 
+INSERT INTO star VALUES ('&star_name','&address');
 
+INSERT INTO owns VALUES ('&st_name','&sensor_no');
 
+INSERT INTO acted_by VALUES ('&star_name','&sensor_no');
 
+SELECT * FROM studio;
+
+SELECT * FROM movie;
+
+SELECT * FROM star;
+
+SELECT * FROM owns;
+
+SELECT * FROM acted_by;
+
+SELECT m.title,s.st_name,s.branch,s.location
+FROM studio s,movie m,owns o
+WHERE s.st_name=o.st_name AND m.sensor_no=o.sensor_no AND m.title='one';
+
+SELECT m.title,s.star_name,s.address
+FROM star s,movie m,acted_by a
+WHERE s.star_name=a.star_name AND m.sensor_no=a.sensor_no AND m.title='two';
 
 
 
