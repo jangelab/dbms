@@ -1,0 +1,62 @@
+CREATE TABLE student
+(
+	usn varchar2(10),	
+	name varchar2(30),
+	sem number(1),
+	constraint student_pk PRIMARY KEY(usn)
+);
+
+CREATE TABLE student_address
+(
+	usn varchar2(10),
+	address varchar2(50),
+	constraint address_fk FOREIGN KEY(usn) REFERENCES student(usn)
+);
+
+CREATE TABLE subjects
+(
+	id varchar2(10),
+	title varchar2(30) UNIQUE,
+	credits number(2,1),
+	constraint subjects_pk1 PRIMARY KEY(id)
+);
+
+CREATE TABLE enroll
+(
+	usn varchar2(10),
+	id varchar2(10),
+	constraint enroll_fk1 FOREIGN KEY(usn) REFERENCES student(usn),
+	constraint enroll_fk2 FOREIGN KEY(id) REFERENCES subjects(id)
+);
+
+INSERT INTO student VALUES ('&usn','&name','&sem');
+
+INSERT INTO student_address VALUES ('&usn','&address');
+
+INSERT INTO subjects VALUES ('&id','&title','&credits');
+
+INSERT INTO enroll VALUES ('&usn','&id');
+
+SELECT * FROM student;
+
+SELECT * FROM student_address;
+
+SELECT * FROM subjects;
+
+SELECT * FROM enroll;
+
+SELECT count(*)
+FROM student s,enroll e,subjects sub
+WHERE s.usn=e.usn AND e.id=sub.id AND sub.title='SE';
+
+SELECT s1.name
+FROM student s1,subjects sub1,enroll e1
+WHERE e1.usn=s1.usn AND e1.id=sub1.id AND sub1.title='DBMS'
+MINUS
+SELECT s2.name
+FROM student s2,subjects sub2,enroll e2
+WHERE e2.usn=s2.usn AND e2.id=sub2.id AND sub2.title='SE';
+
+
+
+
