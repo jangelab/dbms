@@ -1,42 +1,70 @@
-create table studio(st_name varchar(20) primary key, branch varchar(20), location varchar(20));
-create table cartoon(sensor_no int primary key, title varchar(20), year number);
-create table star_cast(star_name varchar(20) primary key, address varchar(20));
-create table own_cat(st_name varchar(20), sensor_no int, primary key(st_name,sensor_no), foreign key(st_name) references studio (st_name), foreign key(sensor_no) references cartoon(sensor_no));
-create table voiced_by(star_name varchar(20), sensor_no int, primary key(star_name,sensor_no), foreign key(star_name) references star_cast(star_name), foreign key(sensor_no) references cartoon(sensor_no));
+CREATE TABLE studioo
+(
+	st_name varchar(20),
+	branch varchar(20),
+	location varchar(20),
+	constraint studioo_pk PRIMARY KEY(st_name)
+);
 
-insert into studio values('Marvel-studio', 'Texas', 'USA');
-insert into studio values('Alion-studio', 'Delhi', 'India');
-insert into studio values('DC', 'London', 'England');
-select * from studio;
+CREATE TABLE cartoon
+(
+	title varchar2(20),
+	sensor_no varchar2(20),
+	yop number(5),
+	constraint cartoon_pk PRIMARY KEY(sensor_no)
+);
 
-insert into cartoon values('123456', 'Avengers', '2018');
-insert into cartoon values('780107', 'Chemchy', '2019');
-insert into cartoon values('222444', 'Justice_league', '2020');
-select * from cartoon;
+CREATE TABLE staar
+(
+	name varchar2(20),
+	address varchar2(20),
+	constraint staar_pk PRIMARY KEY(name)
+);
+
+CREATE TABLE owned_by
+(
+	st_name varchar2(20),
+	sensor_no varchar2(20),
+	constraint fk1 FOREIGN KEY(st_name) REFERENCES studioo(st_name),
+	constraint fk2 FOREIGN KEY(sensor_no) REFERENCES cartoon(sensor_no)
+);
+
+CREATE TABLE voice_by
+(
+	name varchar2(20),	
+	sensor_no varchar2(20),
+	constraint fk3 FOREIGN KEY(name) REFERENCES staar(name),
+	constraint fk4 FOREIGN KEY(sensor_no) REFERENCES cartoon(sensor_no)
+);
+
+INSERT INTO studioo VALUES ('&st_name','&branch','&location');
+
+INSERT INTO cartoon VALUES ('&title','&sensor_no',&yop);
+
+INSERT INTO staar VALUES ('&name','&address');
+
+INSERT INTO owned_by VALUES ('&st_name','&sensor_no');
+
+INSERT INTO voice_by VALUES ('&name','&sensor_no');
+
+SELECT * FROM studioo;
+
+SELECT * FROM cartoon;
+
+SELECT * FROM staar;
+
+SELECT * FROM owned_by;
+
+SELECT * FROM voice_by;
+
+SELECT s.st_name,s.location,c.title
+FROM studioo s,cartoon c,owned_by o,voice_by v
+WHERE s.st_name=o.st_name AND c.sensor_no=o.sensor_no AND v.name='NANI' AND v.sensor_no=c.sensor_no;
+
+SELECT count(*)
+FROM staar s,cartoon c,voice_by v
+WHERE s.name=v.name AND v.sensor_no=c.sensor_no AND c.title='A';
 
 
-insert into star_cast values('RDJ', 'Texas');
-insert into star_cast values('Chris', 'Russia');
-insert into star_cast values('Henry', 'London');
-select * from star_cast;
 
 
-insert into own_cat values('Marvel-studio', '123456');
-insert into own_cat values('Alion-studio', '780107');
-insert into own_cat values('DC', '222444');
-select * from own_cat;
-
-
-insert into voiced_by values('RDJ', '123456');
-insert into voiced_by values('Chris', '780107');
-insert into voiced_by values('Henry', '222444');
-select * from voiced_by;
-
-
-select count(*)
-  2  from cartoon c, voiced_by v
-  3  where c.title='Avengers' and c.sensor_no=v.sensor_no;
-
-select s.st_name,s.location,c.title
-from studio s,cartoon c, own_cat o,voiced_by B
-where s.st_name=o.st_name and c.sensor_no=o.sensor_no and B.star_name='RDJ' and B.sensor_no=c.sensor_no;
