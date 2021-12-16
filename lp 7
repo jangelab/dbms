@@ -1,0 +1,59 @@
+CREATE TABLE customer
+(
+	cid varchar2(10),	
+	name varchar2(30),
+	constraint customer_pk PRIMARY KEY(cid)
+);
+
+CREATE TABLE customer_address
+(
+	cid varchar2(10),
+	street varchar2(20),
+	city varchar2(20),
+	state varchar2(20),
+	constraint caddress_fk FOREIGN KEY(cid) REFERENCES customer(cid)
+);
+
+CREATE TABLE account
+(
+	accnum varchar2(20),
+	type varchar2(10),
+	balance number(10,2),
+	constraint account_pk PRIMARY KEY(accnum)
+);
+
+CREATE TABLE accowns
+(
+	cid varchar2(10),
+	accnum varchar2(20),
+	ldot DATE,
+	constraint accowns_fk1 FOREIGN KEY(cid) REFERENCES customer(cid),
+	constraint accowns_fk2 FOREIGN KEY(accnum) REFERENCES account(accnum)
+);
+
+INSERT INTO customer VALUES ('&cid','&name');
+
+INSERT INTO customer_address VALUES ('&cid','&street','&city','&state');
+
+INSERT INTO account VALUES ('&accnum','&type','&balance');
+
+INSERT INTO accowns VALUES ('&cid','&accnum','&ldot');
+
+SELECT * FROM customer;
+
+SELECT * FROM customer_address;
+
+SELECT * FROM account;
+
+SELECT * FROM accowns;
+
+UPDATE account
+SET balance=case
+WHEN balance<=10000 THEN balance*1.05
+ELSE balance*1.06
+END;
+
+SELECT a.accnum
+FROM accowns o,account a,customer c
+GROUP BY a.accnum
+HAVING COUNT(a.accnum)>3;
