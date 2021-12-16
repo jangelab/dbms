@@ -1,0 +1,50 @@
+CREATE TABLE customerr
+(
+	cid varchar2(10),	
+	name varchar2(30),
+	aincome number(10,2),
+	constraint customerr_pk PRIMARY KEY(cid)
+);
+
+CREATE TABLE customerr_address
+(
+	cid varchar2(10),
+	street varchar2(20),
+	city varchar2(20),
+	state varchar2(20),
+	constraint craddress_fk FOREIGN KEY(cid) REFERENCES customerr(cid)
+);
+
+CREATE TABLE loan_takes
+(
+	cid varchar2(10),
+	num varchar2(20),
+	type varchar2(10),
+	amount number(10,2),
+	ldot DATE,
+	constraint loan_takes_fk FOREIGN KEY(cid) REFERENCES customerr(cid)	
+);
+
+INSERT INTO customerr VALUES ('&cid','&name','&aincome');
+
+INSERT INTO customerr_address VALUES ('&cid','&street','&city','&state');
+
+INSERT INTO loan_takes VALUES ('&cid','&num','&type','&amount','&ldot');
+
+SELECT * FROM customerr;
+
+SELECT * FROM customerr_address;
+
+SELECT * FROM loan_takes;
+
+UPDATE loan_takes
+SET amount=case
+WHEN amount<50000 THEN amount*1.12
+ELSE amount*1.14
+END;
+
+SELECT c.cid,c.name
+FROM customerr c,loan_takes l
+WHERE c.cid=l.cid
+GROUP BY c.name,c.cid
+HAVING COUNT(l.num)=1;
