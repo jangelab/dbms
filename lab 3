@@ -1,70 +1,119 @@
-CREATE TABLE studioo
-(
-	st_name varchar(20),
-	branch varchar(20),
-	location varchar(20),
-	constraint studioo_pk PRIMARY KEY(st_name)
+a) 
+create table studio1( 
+st_name varchar(20), 
+branch varchar(20), 
+location varchar(20), 
+constraint pk51 primary key(st_name) 
+); 
+
+create table cartoon 
+( 
+sensor_no varchar(20), 
+title varchar(20), 
+year number(5), 
+constraint pk53 primary key(sensor_no) 
+); 
+
+create table star_cat 
+( 
+star_name varchar(20), 
+address varchar(20), 
+constraint pk64 primary key(star_name) 
+); 
+
+create table owncat 
+( 
+st_name varchar(20), 
+sensor_no varchar(20), 
+constraint pk55 primary key(st_name,sensor_no), 
+constraint fk56 foreign key(st_name) references studio1(st_name), 
+constraint fk57 foreign key(sensor_no) references cartoon(sensor_no) 
 );
 
-CREATE TABLE cartoon
-(
-	title varchar2(20),
-	sensor_no varchar2(20),
-	yop number(5),
-	constraint cartoon_pk PRIMARY KEY(sensor_no)
-);
+create table voiced_by 
+( 
+star_name varchar(20), 
+sensor_no varchar(20), 
+constraint pk58 primary key(star_name,sensor_no), 
+constraint fk59 foreign key(star_name) references star_cat(star_name), 
+constraint fk60 foreign key(sensor_no) references cartoon(sensor_no) 
+); 
 
-CREATE TABLE staar
-(
-	name varchar2(20),
-	address varchar2(20),
-	constraint staar_pk PRIMARY KEY(name)
-);
+b) 
+insert into studio1 values('wb','pop','aa'); 
+insert into studio1 values('gb','pio','dd'); 
+insert into studio1 values('fg','uiy','kk'); 
+insert into studio1 values('un','rus','pr'); 
+insert into studio1 values('nb','rty','fg');
+ 
+insert into cartoon values(201,'tj',1990); 
+insert into cartoon values(202,'ju',1991); 
+insert into cartoon values(203,'gt',1991); 
+insert into cartoon values(204,'tu',2012); 
+insert into cartoon values(206,'tr',1998); 
+insert into cartoon values(209,'tun',2012); 
 
-CREATE TABLE owned_by
-(
-	st_name varchar2(20),
-	sensor_no varchar2(20),
-	constraint fk1 FOREIGN KEY(st_name) REFERENCES studioo(st_name),
-	constraint fk2 FOREIGN KEY(sensor_no) REFERENCES cartoon(sensor_no)
-);
+insert into star_cat values('james','dbn'); 
+insert into star_cat values('tom','adjk'); 
+insert into star_cat values('ross','jjk'); 
+insert into star_cat values('peter','jkj'); 
+insert into star_cat values('joe','ahfa'); 
 
-CREATE TABLE voice_by
-(
-	name varchar2(20),	
-	sensor_no varchar2(20),
-	constraint fk3 FOREIGN KEY(name) REFERENCES staar(name),
-	constraint fk4 FOREIGN KEY(sensor_no) REFERENCES cartoon(sensor_no)
-);
+insert into owncat values('wb',201); 
+insert into owncat values('gb',201); 
+insert into owncat values('fg',201); 
+insert into owncat values('nb',202); 
+insert into owncat values('nb',204); 
 
-INSERT INTO studioo VALUES ('&st_name','&branch','&location');
+insert into voiced_by values('james',201); 
+insert into voiced_by values('ross',201); 
+insert into voiced_by values('tom',203); 
+insert into voiced_by values('peter',206); 
+insert into voiced_by values('joe',201); 
 
-INSERT INTO cartoon VALUES ('&title','&sensor_no',&yop);
+c) 
+select count(*) 
+from cartoon c,voiced_by v 
+where c.title='xyz'and c.sensor_no=v.sensor_no; 
 
-INSERT INTO staar VALUES ('&name','&address');
+d) 
+select s.st_name,s.location,c.title 
+from studio1 s,cartoon c,owncat o,voiced_by sr 
+where s.st_name=o.st_name and c.sensor_no=o.sensor_no and sr.star_name='abc' and sr.sensor_no=c.sensor_no;
 
-INSERT INTO owned_by VALUES ('&st_name','&sensor_no');
+e)
+create or replace procedure prr3(s number)
+is
+x cartoon.title%type;
+cursor c is select title
+from cartoon c
+where c.year=s;
+begin
+for x in c loop
+sys.dbms_output.put_line(x.title);
+end loop;
+end;
+/
 
-INSERT INTO voice_by VALUES ('&name','&sensor_no');
+set serveroutput on;
 
-SELECT * FROM studioo;
+exec prr3(1991);
 
-SELECT * FROM cartoon;
+f)
+create or replace trigger trr3
+before delete on cartoon
+for each row
+declare
+cur number;
+begin
+select to_char(sysdate,'YYYY')into cur
+from dual;
+if(:OLD.year=cur) then
+raise_application_error(-20019,'Cannot delete');
+end if;
+end;
+/
 
-SELECT * FROM staar;
+insert into cartoon values(210,'tjh',2021);
 
-SELECT * FROM owned_by;
-
-SELECT * FROM voice_by;
-
-SELECT s.st_name,s.location,c.title
-FROM studioo s,cartoon c,owned_by o,voice_by v
-WHERE s.st_name=o.st_name AND c.sensor_no=o.sensor_no AND v.name='NANI' AND v.sensor_no=c.sensor_no;
-
-SELECT count(*)
-FROM staar s,cartoon c,voice_by v
-WHERE s.name=v.name AND v.sensor_no=c.sensor_no AND c.title='A';
-
-
-
-
+delete from cartoon where year=2021;
