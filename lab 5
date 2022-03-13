@@ -1,38 +1,89 @@
-CREATE TABLE person
+create table ownerofdog
 (
-	ssn varchar2(20),	
-	name varchar2(20),
-	address varchar2(20),
-	constraint person_pk PRIMARY KEY(ssn)
-);
+oname varchar(10),
+ssn number(10),
+address varchar(30),
+constraint pk1 primary key(ssn));
 
-CREATE TABLE dog
+
+create table doggg
 (
-	person_ssn varchar2(20),	
-	dname varchar2(20),
-	sex varchar2(10),
-	dop date,
-	constraint dog_fk FOREIGN KEY(person_ssn) REFERENCES person(ssn)
-);
+ssn number(10),
+dname varchar(10),
+sex varchar(5),
+dop date,
+constraint pk2 primary key(ssn,dname),
+constraint fk1 foreign key(ssn) references ownerofdog(ssn));
 
-INSERT INTO person VALUES ('&ssn','&name','&address');
 
-INSERT INTO dog VALUES ('&person_ssn','&dname','&sex','&dop');
+insert into ownerofdog values('james',1234,'xyz');
+insert into ownerofdog values('manoj',1235,'pqr');
+insert into ownerofdog values('monika',1236,'yrs');
+insert into ownerofdog values('gunda',1237,'rti ');
+insert into ownerofdog values('harsh',1238,'rjs');
+insert into ownerofdog values('Abhiman',1239,'stf');
 
-SELECT * FROM person;
+insert into doggg values (1234,'ab','M','10-jan-2010');
+insert into doggg values(1234,'bc','F','10-jan-2010');
+insert into doggg values(1235,'de','M','20-feb-2009');
+insert into doggg values(1236,'ef','F','21-mar-2010');
+insert into doggg values(1237,'jp','F','22-mar-2010');
+insert into doggg values(1239,'gh','M','09-jan-2010');
+insert into doggg values(1239,'fu','F','10-jan-2011');
 
-SELECT * FROM dog;
 
-SELECT p.ssn,p.name,d.dname,d.sex
-FROM person p,dog d
-WHERE p.ssn=d.person_ssn AND p.name='jk';
+select dname,sex,dop
+from doggg d,ownerofdog o
+where d.ssn=o.ssn and o.oname='Abhiman';
 
-SELECT p.ssn,p.name
-FROM person p
-WHERE NOT EXISTS (SELECT * FROM dog d 
-			WHERE d.person_ssn=p.ssn); 
 
-SELECT p.ssn,p.name
-FROM person p
-WHERE p.ssn NOT IN (SELECT d.person_ssn FROM dog d); 
+select o.oname
+from ownerofdog o
+where not exists( select *
+from doggg d
+where o.ssn=d.ssn);
 
+select o.oname
+from ownerofdog o
+where o.ssn not in (select ssn from doggg);
+
+
+
+create or replace trigger trr5
+before insert on doggg
+for each row
+declare
+cnt number;
+begin
+select count(*) into cnt from doggg d
+where d.ssn=:NEW.ssn;
+if(cnt>=3) then
+raise_application_error(-20009,'Capacity of the owner crossed');
+end if;
+end;
+/
+To check trigger;
+insert into doggg values(1239,'gr','F','12-jan-2011');
+insert into doggg values(1239,'ks','M','14-jan-2012');
+
+
+create or replace procedure prr5(d date)
+is
+X1 doggg%rowtype;
+X ownerofdog%rowtype;
+cursor c1 is select o.* from ownerofdog o,doggg d where o.ssn=d.ssn and d.dop=d;
+cursor c2 is select d.* from doggg d where d.dop=d;
+begin
+sys.dbms_output.put_line('OWNER DETAILS');
+for X in c1 loop
+sys.dbms_output.put_line(X.oname||' '||X.ssn||' '||X.address);
+end loop;
+sys.dbms_output.put_line('DOG DETAILS');
+for X1 in c2 loop
+sys.dbms_output.put_line(X1.dname||' '||X1.ssn||' '||X1.sex);
+end loop;
+end;
+/
+
+set serveroutput on;
+exec prr5('10-jan-2010');
