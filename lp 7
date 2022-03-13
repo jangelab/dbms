@@ -1,59 +1,135 @@
-CREATE TABLE customer
+create table customer1
 (
-	cid varchar2(10),	
-	name varchar2(30),
-	constraint customer_pk PRIMARY KEY(cid)
+c_id varchar(10),
+name varchar(10),
+constraint pk71 primary key(c_id)
 );
 
-CREATE TABLE customer_address
+create table account
 (
-	cid varchar2(10),
-	street varchar2(20),
-	city varchar2(20),
-	state varchar2(20),
-	constraint caddress_fk FOREIGN KEY(cid) REFERENCES customer(cid)
+acc_no number(10),
+type varchar(10),
+balance int,
+constraint pk72 primary key(acc_no)
 );
 
-CREATE TABLE account
+create table cust_acc
 (
-	accnum varchar2(20),
-	type varchar2(10),
-	balance number(10,2),
-	constraint account_pk PRIMARY KEY(accnum)
+c_id varchar(10),
+acc_no number(10),
+last_tr date,
+constraint pk73 primary key(c_id,acc_no),
+constraint fk71 foreign key(c_id) references customer1(c_id),
+constraint fk72 foreign key(acc_no) references account(acc_no)
 );
 
-CREATE TABLE accowns
+create table address1
 (
-	cid varchar2(10),
-	accnum varchar2(20),
-	ldot DATE,
-	constraint accowns_fk1 FOREIGN KEY(cid) REFERENCES customer(cid),
-	constraint accowns_fk2 FOREIGN KEY(accnum) REFERENCES account(accnum)
+c_id varchar(10),
+street varchar(20),
+city varchar(20),
+state varchar(20),
+constraint pk74 primary key(c_id,street,city,state),
+constraint fk73 foreign key(c_id) references customer1(c_id)
 );
 
-INSERT INTO customer VALUES ('&cid','&name');
 
-INSERT INTO customer_address VALUES ('&cid','&street','&city','&state');
 
-INSERT INTO account VALUES ('&accnum','&type','&balance');
+insert into customer1 values('c1111','alex');
+insert into customer1 values('c1112','john');
+insert into customer1 values('c1113','steve');
+insert into customer1 values('c1114','robert');
 
-INSERT INTO accowns VALUES ('&cid','&accnum','&ldot');
+insert into account values(2001,'savings','8000');
+insert into account values(2002,'RD','9000');
+insert into account values(2003,'joint','20000');
+insert into account values(2004,'joint','10000');
 
-SELECT * FROM customer;
+insert into cust_acc values('c1111',2003,'20-jan-2011');
+insert into cust_acc values('c1112',2003,'12-feb-2011');
+insert into cust_acc values('c1113',2003,'13-jan-2011');
+insert into cust_acc values('c1114',2003,'20-mar-2011');
+insert into cust_acc values('c1111',2001,'20-dec-2011');
 
-SELECT * FROM customer_address;
+insert into address1 values('c1111','fsfsf','ccxx','hghg');
+insert into address1 values('c1111','fsfcc','ccqwq','hgcxhg');
 
-SELECT * FROM account;
 
-SELECT * FROM accowns;
 
-UPDATE account
-SET balance=case
-WHEN balance<=10000 THEN balance*1.05
-ELSE balance*1.06
-END;
+update account
+set balance=case
+when (balance<=10000) then balance*1.03
+else balance*1.06
+end;
 
-SELECT a.accnum
-FROM accowns o,account a,customer c
-GROUP BY a.accnum
-HAVING COUNT(a.accnum)>3;
+
+select acc_no from cust_acc
+group by acc_no having count(*)>3;
+
+
+
+create or replace trigger last_trans1
+before insert on cust_acc
+for each row
+declare
+cur_date date;
+begin
+select sysdate into cur_date from dual;
+if(to_char(:NEW.last_tr)!=to_char(cur_date)) then
+raise_application_error(-20009,'INVALID DATE');
+end if;
+end;
+/
+
+
+insert into cust_acc values('c1112',2002,'20-dec-2011');
+
+create or replace procedure prr7
+is
+X customer1%rowtype;
+cursor a
+is
+select c.name, c.c_id
+from customer1 c, cust_acc ca
+where c.c_id=ca.c_id
+group by ca.c_id,c.name
+having count(*) >= all(select count(*)
+from cust_acc
+group by c_id);
+cursor b
+is
+select c.name,c.c_id 
+from customer1 c, account a, cust_acc ca
+where c.c_id=ca.c_id and a.acc_no=ca.acc_no and a.balance in
+(select min(balance) from account);
+cursor c
+is
+select cu.name,a.c_id,count(a.c_id)
+from cust_acc a,customer1 cu
+where a.c_id=cu.c_id and a.c_id in(select ca.c_id
+from cust_acc ca
+where ca.acc_no in 
+(select acc_no 
+from cust_acc
+group by acc_no
+having count(*)>1))
+group by a.c_id,cu.name
+having count(*)>=all(select count(*) from cust_acc d group by d.c_id);
+begin
+sys.dbms_output.put_line('CUSTOMER DETAILS WITH MAXIMUM ACCOUNTS');
+for X in a loop
+sys.dbms_output.put_line(X.name);
+end loop;
+sys.dbms_output.put_line('CUSTOMER DETAILS WITH LOWEST BALANCE');
+for X in b loop
+sys.dbms_output.put_line(X.name);
+end loop;
+sys.dbms_output.put_line('CUSTOMER DETAILS WITH MAXIMUM JOINT ACCOUNTS');
+for X in c loop
+sys.dbms_output.put_line(X.c_id||' '||X.name);
+end loop;
+end;
+/
+set serveroutput on;
+exec prr7;
+
