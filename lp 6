@@ -1,62 +1,100 @@
-CREATE TABLE student
+create table stud2
 (
-	usn varchar2(10),	
-	name varchar2(30),
-	sem number(1),
-	constraint student_pk PRIMARY KEY(usn)
+usn number(10),
+sem varchar(10),
+name varchar(20),
+constraint pkk1 primary key(usn)
 );
 
-CREATE TABLE student_address
+create table course
 (
-	usn varchar2(10),
-	address varchar2(50),
-	constraint address_fk FOREIGN KEY(usn) REFERENCES student(usn)
+title varchar(20) unique,
+cid number(10),
+credits number(10),
+constraint pk44 primary key(cid)
 );
 
-CREATE TABLE subjects
+create table enroll
 (
-	id varchar2(10),
-	title varchar2(30) UNIQUE,
-	credits number(2,1),
-	constraint subjects_pk1 PRIMARY KEY(id)
+usn number(10),
+cid number(10),
+constraint pk54 primary key(usn,cid),
+constraint fk44 foreign key(cid) references course(cid),
+constraint fk54 foreign key(usn) references stud2(usn)
 );
 
-CREATE TABLE enroll
-(
-	usn varchar2(10),
-	id varchar2(10),
-	constraint enroll_fk1 FOREIGN KEY(usn) REFERENCES student(usn),
-	constraint enroll_fk2 FOREIGN KEY(id) REFERENCES subjects(id)
-);
 
-INSERT INTO student VALUES ('&usn','&name','&sem');
 
-INSERT INTO student_address VALUES ('&usn','&address');
+insert into stud2 values(901,7,'josh');
+insert into stud2 values(902,5,'guru');
+insert into stud2 values(903,7,'srini');
+insert into stud2 values(904,3,'turre');
+insert into stud2 values(905,3,'rupa');
+insert into stud2 values(906,5,'piggi');
+insert into stud2 values(907,6,'jos');
 
-INSERT INTO subjects VALUES ('&id','&title','&credits');
+insert into course values('dbms',301,4);
+insert into course values('ld',302,5);
+insert into course values('ds',303,4);
+insert into course values('oops',304,4);
+insert into course values('ada',305,3);
+insert into course values('se',306,4);
+insert into course values('cn',307,4);
 
-INSERT INTO enroll VALUES ('&usn','&id');
-
-SELECT * FROM student;
-
-SELECT * FROM student_address;
-
-SELECT * FROM subjects;
-
-SELECT * FROM enroll;
-
-SELECT count(*)
-FROM student s,enroll e,subjects sub
-WHERE s.usn=e.usn AND e.id=sub.id AND sub.title='SE';
-
-SELECT s1.name
-FROM student s1,subjects sub1,enroll e1
-WHERE e1.usn=s1.usn AND e1.id=sub1.id AND sub1.title='DBMS'
-MINUS
-SELECT s2.name
-FROM student s2,subjects sub2,enroll e2
-WHERE e2.usn=s2.usn AND e2.id=sub2.id AND sub2.title='SE';
+insert into enroll values(901,301);
+insert into enroll values(902,301);
+insert into enroll values(903,303);
+insert into enroll values(904,304);
+insert into enroll values(901,302);
+insert into enroll values(901,303);
+insert into enroll values(901,304);
+insert into enroll values(901,305);
+insert into enroll values(903,305);
+insert into enroll values(901,306);
+insert into enroll values(901,307);
 
 
 
+select count(s.usn)
+from stud2 s,course c,enroll e
+where s.usn=e.usn and e.cid=c.cid and c.title='dbms';
 
+
+select s.name
+from stud2 s,course c,enroll e
+where s.usn=e.usn and e.cid=c.cid and c.title='ds'
+minus
+select s.name
+from stud2 s,course c,enroll e
+where s.usn=e.usn and e.cid=c.cid and c.title='ld';
+
+
+create or replace trigger trr6
+before insert on enroll
+for each row
+declare
+var1 number;
+begin
+select count(*) into var1 from enroll where usn=:new.usn;
+if(var1>=6)
+then
+raise_application_error(-20009,'limit reached');
+end if;
+end;
+/
+
+insert into enroll values(901,308);
+
+
+create or replace procedure prr6
+is
+x course%rowtype;
+cursor c is select distinct(c1.title) from course c1, stud2 s, enroll e where s.usn=e.usn and c1.cid=e.cid and s.sem='7';
+begin
+for x in c loop
+sys.dbms_output.put_line(x.title);
+end loop;
+end;
+/
+set serveroutput on;
+exec prr6;
