@@ -1,44 +1,89 @@
-CREATE TABLE STUDIO_DETAILS
+a)
+create table movie
 (
-	SNAME VARCHAR2(20),
-	BRANCH VARCHAR2(20),
-	CONSTRAINT STUDIO_PK PRIMARY KEY(SNAME)
+name varchar(10),
+branch varchar(10),
+constraint pki1 primary key(name)
 );
 
-CREATE TABLE STUDIO_LOCATION
+create table crew
 (
-	SNAME VARCHAR2(20),
-	LOCATION VARCHAR2(20),
-	CONSTRAINT LOC_FK FOREIGN KEY(SNAME) REFERENCES STUDIO_DETAILS(SNAME)
+crew_no number(10),
+name varchar(10),
+strength number(10),
+sector varchar(20),
+constraint pki2 primary key(name,crew_no),
+constraint fki1 foreign key(name) references movie(name)
 );
 
-CREATE TABLE CREW
+create table locations
 (
-	SNAME VARCHAR2(20),
-	CNO NUMBER(3),
-	SECTOR VARCHAR2(20),
-	STRENGTH NUMBER(3),
-	CONSTRAINT CREW_FK FOREIGN KEY(SNAME) REFERENCES STUDIO_DETAILS(SNAME)
+name varchar(10),
+location varchar(20),
+constraint pki3 primary key(name,location)
 );
 
+b) 
+insert into movie values('pixar','blore');
+insert into movie values('warnerbro','pune');
+insert into movie values('redchill','goa');
+insert into movie values('legendary','usa');
 
-INSERT INTO STUDIO_DETAILS VALUES('&SNAME','&BRANCH');
+insert into crew values(11111,'pixar',14,'thrill');
+insert into crew values(11112,'pixar',11,'sijd');
+insert into crew values(11113,'pixar',6,'sakjs');
+insert into crew values(11114,'pixar',2,'sawe');
+insert into crew values(11115,'pixar',12,'ssesd');
+insert into crew values(11115,'warnerbro',4,'ssesd');
+insert into crew values(11112,'legendary',2,'thrill');
 
-INSERT INTO STUDIO_LOCATION VALUES('&SNAME','&LOCATION');
+//To check for triggers;
+//insert into crew values(11116,'pixar',11,'ssessd');
+//insert into crew values(11117,'pixar',11,'ssessd');
 
-INSERT INTO CREW VALUES('&SNAME',&CNO,'&SECTOR',&STRENGTH);
+insert into locations values('pixar','pune');
+insert into locations values('pixar','goa');
+insert into locations values('legendary','blore');
 
-SELECT * FROM STUDIO_DETAILS;
+c)
+select name
+from movie
+where name not in (select name
+from crew);
 
-SELECT * FROM STUDIO_LOCATION;
+d)
+select name
+from crew
+where strength >=all(select strength
+from crew);
+select name
+from crew c
+where c.strength in(select max(strength) from crew);
 
-SELECT * FROM CREW;
+e)
+create or replace trigger max_crew
+before insert on crew
+for each row
+declare
+cnt number;
+begin
+select count(*) into cnt from crew
+where name=:NEW.name;
+if(cnt>4) then
+raise_application_error(-20009,'MAX CREW LIMIT REACHED');
+end if;
+end;
+/
 
-SELECT SNAME
-FROM STUDIO_DETAILS
-WHERE SNAME NOT IN (SELECT SNAME FROM CREW);
-
-SELECT SNAME
-FROM CREW 
-WHERE STRENGTH>=ALL(SELECT STRENGTH FROM CREW);
-
+f)
+create or replace procedure display_crew(sname varchar)
+is
+X crew%rowtype;
+cursor c is select c1.* from crew c1,movie m
+where m.name=sname and c1.name=m.name;
+begin
+for X in c loop
+sys.dbms_output.put_line(X.crew_no||' '||X.strength||' '||X.sector);
+end loop;
+end;
+/
