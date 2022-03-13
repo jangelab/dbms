@@ -1,37 +1,101 @@
-CREATE TABLE owner
+create table owner2
 (
-	ssn varchar2(20),	
-	name varchar2(20),
-	address varchar2(20),
-	constraint owner_pk PRIMARY KEY(ssn)
+ssn number(10),
+name varchar(20),
+address varchar(20),
+constraint pk41 primary key(ssn)
 );
 
-CREATE TABLE car
+
+create table car2
 (
-	owner_ssn varchar2(20),	
-	reg_no varchar2(20),
-	model varchar2(20),
-	color varchar2(20),
-	dop date,
-	constraint fk FOREIGN KEY(owner_ssn) REFERENCES owner(ssn) NOT NULL
+rgno number(10),
+model varchar(10),
+color varchar(10),
+ssn number(10),
+dop date,
+constraint pk42 primary key(rgno),
+constraint fk41 foreign key(ssn) references owner2(ssn)
 );
 
-INSERT INTO owner VALUES ('&ssn','&name','&address');
 
-INSERT INTO car VALUES ('&owner_ssn','&reg_no','&model','&color','&dop');
+insert into owner2 values(4441,'josh','sfsdf');
+insert into owner2 values(4442,'john','sfsdf');
+insert into owner2 values(4443,'rose','sfsdf');
+insert into owner2 values(4444,'robert','sfsdf');
 
-SELECT * FROM owner;
+insert into car2 values(55551,'dfdf','red',4441,'10-jan-2011');
+insert into car2 values(55552,'xcdf','black',4441,'11-nov-2011');
+insert into car2 values(55553,'dfdfcx','blue',4441,'10-dec-2011');
+insert into car2 values(55554,'asdfdf','white',4442,'10-jul-2011');
+insert into car2 values(55555,'dfasdf','black',4443,'14-feb-2011');
 
-SELECT * FROM car;
 
-SELECT o.ssn,o.name,c.reg_no,c.model
-FROM owner o,car c
-WHERE o.ssn=c.owner_ssn AND c.dop='11-NOV-11';
 
-SELECT o.name,c.owner_ssn,count(c.owner_ssn)
-FROM owner o,car c
-WHERE o.ssn=c.owner_ssn
-GROUP BY o.name,c.owner_ssn
-HAVING COUNT(c.owner_ssn)>=ALL(SELECT COUNT(m.owner_ssn) FROM car m GROUP BY m.owner_ssn);
+
+
+select o.name,c.ssn,count(c.ssn)
+from owner2 o,car2 c
+where o.ssn=c.ssn
+group by o.name,c.ssn
+having count(c.ssn) >=all(select count(m.ssn)
+from car2 m
+group by (m.ssn));
+
+
+
+select o.name, count(*)
+from owner2 o,car2 c
+where o.ssn=c.ssn
+group by c.ssn,o.name
+having count(*)>=all(select count(*)
+from car2 m
+group by m.ssn);
+
+
+select o.ssn,o.name,c.rgno,c.model
+from owner2 o,car2 c
+where c.ssn=o.ssn and dop='11-nov-2011';
+
+
+
+
+
+create or replace procedure prr4(pyear number)
+is
+X owner2%rowtype;
+X1 car2%rowtype;
+cursor o is select o.* from owner2 o,car2 c1 where c1.ssn=o.ssn and to_char(c1.dop,'YYYY')=pyear;
+cursor f is select c1.* from car2 c1 where to_char(c1.dop,'YYYY')=pyear;
+begin
+sys.dbms_output.put_line('OWNER DETAILS');
+for X in o loop
+sys.dbms_output.put_line(X.name||' '||X.ssn||' '||X.address);
+end loop;
+sys.dbms_output.put_line('CAR DETAILS');
+for X1 in f loop
+sys.dbms_output.put_line(X1.rgno||' '||X1.model||' '||X1.color);
+end loop;
+end;
+/
+
+set serveroutput on;
+exec prr4(2011);
+
+
+create or replace trigger trr4
+before insert on car2
+for each row
+declare
+cur date;
+begin
+select sysdate into cur from dual;
+if(:NEW.dop>cur) then
+raise_application_error(-20009,'incorrect date');
+end if;
+end;
+/
+
+insert into car2 values(55556,'dfasdf','black',4443,'14-feb-2021');
 
 
