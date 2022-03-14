@@ -1,119 +1,87 @@
-a) 
-create table studio1( 
-st_name varchar(20), 
-branch varchar(20), 
-location varchar(20), 
-constraint pk51 primary key(st_name) 
-); 
-
-create table cartoon 
-( 
-sensor_no varchar(20), 
-title varchar(20), 
-year number(5), 
-constraint pk53 primary key(sensor_no) 
-); 
-
-create table star_cat 
-( 
-star_name varchar(20), 
-address varchar(20), 
-constraint pk64 primary key(star_name) 
-); 
-
-create table owncat 
-( 
-st_name varchar(20), 
-sensor_no varchar(20), 
-constraint pk55 primary key(st_name,sensor_no), 
-constraint fk56 foreign key(st_name) references studio1(st_name), 
-constraint fk57 foreign key(sensor_no) references cartoon(sensor_no) 
-);
-
-create table voiced_by 
-( 
-star_name varchar(20), 
-sensor_no varchar(20), 
-constraint pk58 primary key(star_name,sensor_no), 
-constraint fk59 foreign key(star_name) references star_cat(star_name), 
-constraint fk60 foreign key(sensor_no) references cartoon(sensor_no) 
-); 
-
-b) 
-insert into studio1 values('wb','pop','aa'); 
-insert into studio1 values('gb','pio','dd'); 
-insert into studio1 values('fg','uiy','kk'); 
-insert into studio1 values('un','rus','pr'); 
-insert into studio1 values('nb','rty','fg');
- 
-insert into cartoon values(201,'tj',1990); 
-insert into cartoon values(202,'ju',1991); 
-insert into cartoon values(203,'gt',1991); 
-insert into cartoon values(204,'tu',2012); 
-insert into cartoon values(206,'tr',1998); 
-insert into cartoon values(209,'tun',2012); 
-
-insert into star_cat values('james','dbn'); 
-insert into star_cat values('tom','adjk'); 
-insert into star_cat values('ross','jjk'); 
-insert into star_cat values('peter','jkj'); 
-insert into star_cat values('joe','ahfa'); 
-
-insert into owncat values('wb',201); 
-insert into owncat values('gb',201); 
-insert into owncat values('fg',201); 
-insert into owncat values('nb',202); 
-insert into owncat values('nb',204); 
-
-insert into voiced_by values('james',201); 
-insert into voiced_by values('ross',201); 
-insert into voiced_by values('tom',203); 
-insert into voiced_by values('peter',206); 
-insert into voiced_by values('joe',201); 
-
-c) 
-select count(*) 
-from cartoon c,voiced_by v 
-where c.title='xyz'and c.sensor_no=v.sensor_no; 
-
-d) 
-select s.st_name,s.location,c.title 
-from studio1 s,cartoon c,owncat o,voiced_by sr 
-where s.st_name=o.st_name and c.sensor_no=o.sensor_no and sr.star_name='abc' and sr.sensor_no=c.sensor_no;
-
-e)
-create or replace procedure prr3(s number)
-is
-x cartoon.title%type;
-cursor c is select title
-from cartoon c
-where c.year=s;
-begin
-for x in c loop
-sys.dbms_output.put_line(x.title);
-end loop;
-end;
-/
-
-set serveroutput on;
-
-exec prr3(1991);
-
-f)
-create or replace trigger trr3
-before delete on cartoon
-for each row
-declare
-cur number;
-begin
-select to_char(sysdate,'YYYY')into cur
-from dual;
-if(:OLD.year=cur) then
-raise_application_error(-20019,'Cannot delete');
-end if;
-end;
-/
-
-insert into cartoon values(210,'tjh',2021);
-
-delete from cartoon where year=2021;
+class Player
+{
+String name;
+int age, matches, ranking;
+Player (String n, int a, int m, int r)
+{
+name=n;
+age=a;
+matches=m;
+ranking=r;
+}
+}
+class Cricket_Player extends Player
+{
+int hscore, baverage, bataverage;
+Cricket_Player (String n,int a,int m,int r,int hs,int ba,int balla)
+{
+super(n,a,m,r);
+hscore=hs;
+bataverage=ba;
+baverage=balla;
+}
+void disp ()
+{
+System.out.println("Name: "+name);
+System.out.println("Age: "+age);
+System.out.println("No. of Matches: "+matches);
+System.out.println("Highest Score: "+hscore);
+System.out.println("Batting Average: "+bataverage);
+System.out.println("Balling Average: "+baverage);
+System.out.println("Player Ranking: "+ranking);
+}
+}
+class Football_Player extends Player
+{
+int goals, gavg, pass;
+Football_Player (String n,int a,int m,int r,int g,int gaverage, int passeff)
+{
+super(n,a,m,r);
+goals=g;
+gavg=gaverage;
+pass=passeff;
+}
+void disp ()
+{
+System.out.println("Name: "+name);
+System.out.println("Age: "+age);
+System.out.println("No. of Matches: "+matches+"\n");
+System.out.println("No. of Goals: "+goals);
+System.out.println("Goals Average: "+gavg);
+System.out.println("Passing Efficiency: "+pass+"%");
+System.out.println("Player Ranking: "+ranking);
+}
+}
+class Hockey_Player extends Player
+{
+int goals, gavg, pass;
+Hockey_Player (String n,int a,int m,int r,int g,int gaverage, int passeff)
+{
+super(n,a,m,r);
+goals=g;
+gavg=gaverage;
+pass=passeff;
+}
+void disp()
+{
+System.out.println("Name: "+name);
+System.out.println("Age: "+age);
+System.out.println("No. of Matches: "+matches);
+System.out.println("No. of Goals: "+goals);
+System.out.println("Goals Average: "+gavg);
+System.out.println("Passing Efficiency: "+pass+"%");
+System.out.println("Player Ranking: "+ranking);
+}
+}
+public class Inheritance
+{
+public static void main (String args[])
+{
+Cricket_Player C=new Cricket_Player ("Sachin Tendulkar",38,600,8,200,55,60);
+Football_Player F=new Football_Player ("Sunil Chhetri",32,120,90,3,80,94);
+Hockey_Player H=new Hockey_Player ("Dhanraj Pillay",32,120,90,3,80,94);
+C.disp ();
+F. disp ();
+H. disp ();
+}
+}
