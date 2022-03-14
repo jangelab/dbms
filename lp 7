@@ -1,135 +1,38 @@
-create table customer1
-(
-c_id varchar(10),
-name varchar(10),
-constraint pk71 primary key(c_id)
-);
-
-create table account
-(
-acc_no number(10),
-type varchar(10),
-balance int,
-constraint pk72 primary key(acc_no)
-);
-
-create table cust_acc
-(
-c_id varchar(10),
-acc_no number(10),
-last_tr date,
-constraint pk73 primary key(c_id,acc_no),
-constraint fk71 foreign key(c_id) references customer1(c_id),
-constraint fk72 foreign key(acc_no) references account(acc_no)
-);
-
-create table address1
-(
-c_id varchar(10),
-street varchar(20),
-city varchar(20),
-state varchar(20),
-constraint pk74 primary key(c_id,street,city,state),
-constraint fk73 foreign key(c_id) references customer1(c_id)
-);
-
-
-
-insert into customer1 values('c1111','alex');
-insert into customer1 values('c1112','john');
-insert into customer1 values('c1113','steve');
-insert into customer1 values('c1114','robert');
-
-insert into account values(2001,'savings','8000');
-insert into account values(2002,'RD','9000');
-insert into account values(2003,'joint','20000');
-insert into account values(2004,'joint','10000');
-
-insert into cust_acc values('c1111',2003,'20-jan-2011');
-insert into cust_acc values('c1112',2003,'12-feb-2011');
-insert into cust_acc values('c1113',2003,'13-jan-2011');
-insert into cust_acc values('c1114',2003,'20-mar-2011');
-insert into cust_acc values('c1111',2001,'20-dec-2011');
-
-insert into address1 values('c1111','fsfsf','ccxx','hghg');
-insert into address1 values('c1111','fsfcc','ccqwq','hgcxhg');
-
-
-
-update account
-set balance=case
-when (balance<=10000) then balance*1.03
-else balance*1.06
-end;
-
-
-select acc_no from cust_acc
-group by acc_no having count(*)>3;
-
-
-
-create or replace trigger last_trans1
-before insert on cust_acc
-for each row
-declare
-cur_date date;
-begin
-select sysdate into cur_date from dual;
-if(to_char(:NEW.last_tr)!=to_char(cur_date)) then
-raise_application_error(-20009,'INVALID DATE');
-end if;
-end;
-/
-
-
-insert into cust_acc values('c1112',2002,'20-dec-2011');
-
-create or replace procedure prr7
-is
-X customer1%rowtype;
-cursor a
-is
-select c.name, c.c_id
-from customer1 c, cust_acc ca
-where c.c_id=ca.c_id
-group by ca.c_id,c.name
-having count(*) >= all(select count(*)
-from cust_acc
-group by c_id);
-cursor b
-is
-select c.name,c.c_id 
-from customer1 c, account a, cust_acc ca
-where c.c_id=ca.c_id and a.acc_no=ca.acc_no and a.balance in
-(select min(balance) from account);
-cursor c
-is
-select cu.name,a.c_id,count(a.c_id)
-from cust_acc a,customer1 cu
-where a.c_id=cu.c_id and a.c_id in(select ca.c_id
-from cust_acc ca
-where ca.acc_no in 
-(select acc_no 
-from cust_acc
-group by acc_no
-having count(*)>1))
-group by a.c_id,cu.name
-having count(*)>=all(select count(*) from cust_acc d group by d.c_id);
-begin
-sys.dbms_output.put_line('CUSTOMER DETAILS WITH MAXIMUM ACCOUNTS');
-for X in a loop
-sys.dbms_output.put_line(X.name);
-end loop;
-sys.dbms_output.put_line('CUSTOMER DETAILS WITH LOWEST BALANCE');
-for X in b loop
-sys.dbms_output.put_line(X.name);
-end loop;
-sys.dbms_output.put_line('CUSTOMER DETAILS WITH MAXIMUM JOINT ACCOUNTS');
-for X in c loop
-sys.dbms_output.put_line(X.c_id||' '||X.name);
-end loop;
-end;
-/
-set serveroutput on;
-exec prr7;
-
+class collision
+{
+String i, j;
+collision (String a, String b)
+{
+i=a;
+j=b;
+}
+void check ()
+{
+try
+{
+if(i==j)
+{
+System.out.println("The two vehicles are moving in same direction, hence no problem");
+}
+else
+{
+throw new Exception ("The two vehicles are moving in different directions, so collision occurs");
+}
+} catch (Exception e)
+{
+System.out.println(e);
+}
+}
+}
+public class exception
+{
+public static void main (String args [])
+{
+collision s =new collision ("north","north");
+collision n=new collision ("north","east");
+s.check ();
+System.out.println();
+n.check ();
+System.out.println();
+}
+}
