@@ -1,89 +1,58 @@
-a)
-create table movie
-(
-name varchar(10),
-branch varchar(10),
-constraint pki1 primary key(name)
-);
-
-create table crew
-(
-crew_no number(10),
-name varchar(10),
-strength number(10),
-sector varchar(20),
-constraint pki2 primary key(name,crew_no),
-constraint fki1 foreign key(name) references movie(name)
-);
-
-create table locations
-(
-name varchar(10),
-location varchar(20),
-constraint pki3 primary key(name,location)
-);
-
-b) 
-insert into movie values('pixar','blore');
-insert into movie values('warnerbro','pune');
-insert into movie values('redchill','goa');
-insert into movie values('legendary','usa');
-
-insert into crew values(11111,'pixar',14,'thrill');
-insert into crew values(11112,'pixar',11,'sijd');
-insert into crew values(11113,'pixar',6,'sakjs');
-insert into crew values(11114,'pixar',2,'sawe');
-insert into crew values(11115,'pixar',12,'ssesd');
-insert into crew values(11115,'warnerbro',4,'ssesd');
-insert into crew values(11112,'legendary',2,'thrill');
-
-//To check for triggers;
-//insert into crew values(11116,'pixar',11,'ssessd');
-//insert into crew values(11117,'pixar',11,'ssessd');
-
-insert into locations values('pixar','pune');
-insert into locations values('pixar','goa');
-insert into locations values('legendary','blore');
-
-c)
-select name
-from movie
-where name not in (select name
-from crew);
-
-d)
-select name
-from crew
-where strength >=all(select strength
-from crew);
-select name
-from crew c
-where c.strength in(select max(strength) from crew);
-
-e)
-create or replace trigger max_crew
-before insert on crew
-for each row
-declare
-cnt number;
-begin
-select count(*) into cnt from crew
-where name=:NEW.name;
-if(cnt>4) then
-raise_application_error(-20009,'MAX CREW LIMIT REACHED');
-end if;
-end;
-/
-
-f)
-create or replace procedure display_crew(sname varchar)
-is
-X crew%rowtype;
-cursor c is select c1.* from crew c1,movie m
-where m.name=sname and c1.name=m.name;
-begin
-for X in c loop
-sys.dbms_output.put_line(X.crew_no||' '||X.strength||' '||X.sector);
-end loop;
-end;
-/
+import java.util.Scanner;
+class Rectangle
+{
+double width, length, area;
+String color;
+void set_length ()
+{
+Scanner ob= new Scanner(System.in);
+System.out.println("\n Enter the Length:");
+length=ob.nextDouble();
+}
+void set_width ()
+{
+Scanner ob= new Scanner(System.in);
+System.out.println("\n Enter the Width:");
+width=ob.nextDouble();
+}
+void set_color ()
+{
+Scanner ob= new Scanner(System.in);
+System.out.println("\n Enter the Color:");
+color=ob. next ();
+}
+double find_area ()
+{
+area=length*width;
+return area;
+}
+void compare (Rectangle ob)
+{
+if(area==ob.area && color.equals(ob.color))
+System.out.println("Matching Rectangle\n");
+else
+System.out.println("Non Matching Rectangles\n");
+} 
+} 
+public class rect
+{
+public static void main (String args [])
+{
+double area;
+Rectangle r1=new Rectangle ();
+Rectangle r2=new Rectangle ();
+System.out.println("Enter the 1st Rectangle dimension\n");
+r1.set_length ();
+r1.set_width ();
+r1.set_color ();
+area=r1.find_area ();
+System.out.println("\n1st Rectangle Area:"+area);
+System.out.println("Enter the 2nd Rectangle dimension\n");
+r2.set_length ();
+r2.set_width ();
+r2.set_color ();
+area=r2.find_area ();
+System.out.println("\n2nd Rectangle Area:"+area);
+r1. compare(r2);
+}
+} 
