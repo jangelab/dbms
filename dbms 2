@@ -1,107 +1,35 @@
-a)
-create table studio
-(
-st_name varchar(20),
-branch varchar(20),
-location varchar(20),
-constraint pk22 primary key(st_name));
-
-create table movie1
-(
-sensor_no varchar(20),
-title varchar(20),
-year number(5),
-constraint pk23 primary key(sensor_no)
-);
-
-create table star
-(
-star_name varchar(20),
-address varchar(20),
-constraint pk24 primary key(star_name)
-);
-
-create table owns
-(
-st_name varchar(20),
-sensor_no varchar(20),
-constraint pk25 primary key(st_name,sensor_no),
-constraint fk21 foreign key(st_name) references studio(st_name),
-constraint fk22 foreign key(sensor_no) references movie1(sensor_no)
-);
-
-create table acted_by
-(
-star_name varchar(20),
-sensor_no varchar(20),
-constraint pk26 primary key(star_name,sensor_no),
-constraint fk23 foreign key(star_name) references star(star_name),
-constraint fk24 foreign key(sensor_no) references movie1(sensor_no)
-);
-
-b)
-insert into studio values('pixar','blore','dsds');
-insert into studio values('warnerbro','pune','wewew');
-insert into studio values('legendary','new york','szxzx');
-
-insert into movie1 values('s1111','xyz','2011');
-insert into movie1 values('s1112','dark knight','2009');
-insert into movie1 values('s1113','hurt locker',2009);
-
-insert into star values('heath ledger','california');
-insert into star values('caprio','LA');
-insert into star values('clooney','NY');
-
-insert into owns values('legendary','s1112');
-insert into owns values('warnerbro','s1111');
-insert into owns values('pixar','s1113');
-
-insert into acted_by values('heath ledger','s1112');
-insert into acted_by values('caprio','s1111');
-insert into acted_by values('clooney','s1113');
-
-
-c)
-select s.st_name
-from studio s,movie1 m,owns o
-where m.title='xyz' and s.st_name=o.st_name and m.sensor_no=o.sensor_no;
-
-d)
-select s.star_name
-from star s,acted_by a,movie1 m
-where m.title='xyz' and s.star_name=a.star_name and m.sensor_no=a.sensor_no;
-
-e)
-create or replace procedure prr2(s number)
-is
-x movie1%rowtype;
-cursor c is select c.*
-from movie1 c
-where c.year=s;
-begin
-for x in c loop
-sys.dbms_output.put_line(x.title);
-end loop;
-end;
-/
-
-exec prr2('2009');
-
-f)
-create or replace trigger trr2
-before delete on movie1
-for each row
-declare
-cur number;
-begin
-select to_char(sysdate,'YYYY') into cur
-from dual;
-if(:OLD.year=cur) then
-raise_application_error(-20009,'Cannot delete');
-end if;
-end;
-/
-
-insert into movie1 values('s1114','joker','2021');
-
-delete from movie1 where title='joker';
+class Shape
+{
+double lnt, bdt, a;
+Shape (double l)
+{
+lnt=l;
+}
+Shape (double l, double b)
+{
+lnt=l;
+bdt=b;
+}
+void area (double l)
+{
+a=l*l;
+System.out.println("Area of Rectangle (only length is given) ="+a);
+}
+void area (double l, double b)
+{
+a=l*b;
+System.out.println("Area of Rectangle is="+a);
+}
+}
+public class overload
+{
+public static void main (String args [])
+{
+Shape s1=new Shape (5.000);
+Shape s2=new Shape (5.000,6.000);
+s1.area(s1.lnt);
+s2. area (s2.lnt, s2.bdt);
+/*System.out.println("Now if we pass only the length for Rectangle");
+s2. area(s2.lnt);*/
+}
+}
