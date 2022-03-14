@@ -1,100 +1,60 @@
-create table stud2
-(
-usn number(10),
-sem varchar(10),
-name varchar(20),
-constraint pkk1 primary key(usn)
-);
-
-create table course
-(
-title varchar(20) unique,
-cid number(10),
-credits number(10),
-constraint pk44 primary key(cid)
-);
-
-create table enroll
-(
-usn number(10),
-cid number(10),
-constraint pk54 primary key(usn,cid),
-constraint fk44 foreign key(cid) references course(cid),
-constraint fk54 foreign key(usn) references stud2(usn)
-);
-
-
-
-insert into stud2 values(901,7,'josh');
-insert into stud2 values(902,5,'guru');
-insert into stud2 values(903,7,'srini');
-insert into stud2 values(904,3,'turre');
-insert into stud2 values(905,3,'rupa');
-insert into stud2 values(906,5,'piggi');
-insert into stud2 values(907,6,'jos');
-
-insert into course values('dbms',301,4);
-insert into course values('ld',302,5);
-insert into course values('ds',303,4);
-insert into course values('oops',304,4);
-insert into course values('ada',305,3);
-insert into course values('se',306,4);
-insert into course values('cn',307,4);
-
-insert into enroll values(901,301);
-insert into enroll values(902,301);
-insert into enroll values(903,303);
-insert into enroll values(904,304);
-insert into enroll values(901,302);
-insert into enroll values(901,303);
-insert into enroll values(901,304);
-insert into enroll values(901,305);
-insert into enroll values(903,305);
-insert into enroll values(901,306);
-insert into enroll values(901,307);
-
-
-
-select count(s.usn)
-from stud2 s,course c,enroll e
-where s.usn=e.usn and e.cid=c.cid and c.title='dbms';
-
-
-select s.name
-from stud2 s,course c,enroll e
-where s.usn=e.usn and e.cid=c.cid and c.title='ds'
-minus
-select s.name
-from stud2 s,course c,enroll e
-where s.usn=e.usn and e.cid=c.cid and c.title='ld';
-
-
-create or replace trigger trr6
-before insert on enroll
-for each row
-declare
-var1 number;
-begin
-select count(*) into var1 from enroll where usn=:new.usn;
-if(var1>=6)
-then
-raise_application_error(-20009,'limit reached');
-end if;
-end;
-/
-
-insert into enroll values(901,308);
-
-
-create or replace procedure prr6
-is
-x course%rowtype;
-cursor c is select distinct(c1.title) from course c1, stud2 s, enroll e where s.usn=e.usn and c1.cid=e.cid and s.sem='7';
-begin
-for x in c loop
-sys.dbms_output.put_line(x.title);
-end loop;
-end;
-/
-set serveroutput on;
-exec prr6;
+interface instack
+{
+void push (int item);
+int pop ();
+}
+class dstack implements instack
+{
+private int stk [];
+private int tos;
+dstack (int size)
+{
+stk=new int[size];
+tos=-1;
+}
+public void push (int item)
+{ if (tos==stk. length-1)
+{
+int temp []=new int[stk.length*2];
+for (int i=0; i<stk. length; i++)
+temp[i]=stk[i];
+stk=temp;
+stk[++tos]=item;
+}
+else
+{
+stk[++tos]=item;
+}
+}
+public int pop ()
+{ if(tos<0)
+{
+System.out.println("stack underflow");
+return 0;
+} 
+else
+{
+return stk[tos--];
+}
+}
+}
+public class Dyn_stack
+{
+public static void main (String args [])
+{
+dstack mystack1=new dstack (5);
+dstack mystack2=new dstack (8);
+for (int i=0;i<20;i++)
+mystack1.push(i);
+for (int i=0;i<20;i++)
+mystack2.push(i);
+System.out.print("\t Elements in stack1 -> ");
+for (int i=0;i<20;i++)
+System.out.print(mystack1.pop () +" ");
+System.out.println();
+System.out.print("\t Elements in stack2 -> ");
+for (int i=0;i<20;i++)
+System.out.print(mystack2.pop () +" ");
+System.out.println();
+}
+}
