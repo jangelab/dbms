@@ -1,0 +1,343 @@
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/white"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SIGNUP ACTIVITY"
+        android:textSize="30sp"
+        android:textColor="#0A090A"
+        android:layout_marginLeft="80sp"
+        android:layout_marginTop="100dp"
+        android:textStyle="bold"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Username"
+            android:textSize="20dp"
+            android:textColor="#131716"
+            android:textStyle="bold"
+            android:layout_marginRight="20dp"
+            />
+
+        <EditText
+            android:id="@+id/Username"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:textColor="#131515"
+            android:textStyle="bold"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            android:textSize="20dp"
+            android:textColor="#131716"
+            android:textStyle="bold"
+            android:layout_marginRight="20dp"
+            />
+
+        <EditText
+            android:id="@+id/Password"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:textColor="#131515"
+            android:textStyle="bold"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/signup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SIGN UP"
+        android:textStyle="bold"
+        android:textSize="25dp"
+        android:textColor="#E6B9C8"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="#0E0C0E"
+        android:padding="10dp"/>
+</LinearLayout>
+
+mainActivity.java
+package com.example.signup_135;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Bundle bundle = getIntent().getExtras();
+
+        Button SignUp = findViewById(R.id.signup);
+        SignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText UserName = findViewById(R.id.Username);
+                EditText PassWord = findViewById(R.id.Password);
+                String usr = UserName.getText().toString();
+                String psw = PassWord.getText().toString();
+
+                if(checkPasswordValidity(psw)){
+                    Toast.makeText(MainActivity.this, "SignUp Successful", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                    intent.putExtra("UserName",usr);
+                    intent.putExtra("Password",psw);
+                    startActivity(intent);
+                }else{
+                    String message = "Password should contain atleast one Uppercase, Lowercase, Letter, Number, Special Character.\n Minimum Length : 8";
+                    Toast.makeText(MainActivity.this, ""+message, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            private boolean checkPasswordValidity(String psw) {
+                boolean isUpper=false;
+                boolean isLower=false;
+                boolean isAlphabet=false;
+                boolean isNumber=false;
+                boolean isSpecial=false;
+                int minLength = 8;
+
+                for(int i=0;i<psw.length();i++){
+                    char ch = psw.charAt(i);
+                    if(Character.isUpperCase(ch)){
+                        isUpper = true;
+                    }
+                    if(Character.isLowerCase(ch)){
+                        isLower = true;
+                    }
+                    if(Character.isAlphabetic(ch)){
+                        isAlphabet = true;
+                    }
+                    if(Character.isDigit(ch)){
+                        isNumber = true;
+                    }
+                    if(ch == '@'||ch == '!'||ch == '_'||ch == '#'||ch == '$'){
+                        isSpecial = true;
+                    }
+                    if(isAlphabet && isLower && isUpper && isNumber && isSpecial && psw.length()>=minLength){
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+    }
+}
+
+activity_login.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LOGIN ACTIVITY"
+        android:textSize="30sp"
+        android:textColor="#121111"
+        android:layout_marginLeft="80sp"
+        android:layout_marginTop="100dp"
+        android:textStyle="bold"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Username"
+            android:textSize="20dp"
+            android:textColor="#131716"
+            android:textStyle="bold"
+            android:layout_marginRight="20dp"
+            />
+
+        <EditText
+            android:id="@+id/Username"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:textColor="#131515"
+            android:textStyle="bold"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            android:textSize="20dp"
+            android:textColor="#131716"
+            android:textStyle="bold"
+            android:layout_marginRight="20dp"
+            />
+
+        <EditText
+            android:id="@+id/Password"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:textColor="#131515"
+            android:textStyle="bold"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/signin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SIGN IN"
+        android:textStyle="bold"
+        android:textSize="25dp"
+        android:textColor="#E6B9C8"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="#110F11"
+        android:padding="10dp"/>
+</LinearLayout>
+
+
+LoginActivity.java
+
+package com.example.signup_135;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class LoginActivity extends AppCompatActivity {
+
+    int counter = 0;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+
+        final Button SignIn = findViewById(R.id.signin);
+        SignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = getIntent().getExtras();
+                final String signedUsername = bundle.getString("UserName");
+                final String signedPassword = bundle.getString("Password");
+                EditText UserName = findViewById(R.id.Username);
+                EditText PassWord = findViewById(R.id.Password);
+                String usr = UserName.getText().toString().trim();
+                String psw = PassWord.getText().toString().trim();
+
+                if(usr.equals(signedUsername)&&psw.equals(signedPassword)){
+                    Toast.makeText(LoginActivity.this, "Successful Login!!", Toast.LENGTH_LONG).show();
+                }else{
+                    counter++;
+                    if(counter == 1){
+                        Toast.makeText(LoginActivity.this, "Invalid Credentials, 2 Attempts Left", Toast.LENGTH_SHORT).show();
+                    }
+                    else if(counter == 2){
+                        Toast.makeText(LoginActivity.this, "Invalid Credentials, 1 Attempts Left", Toast.LENGTH_SHORT).show();
+                    }
+                    else if(counter == 3){
+                        Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                        SignIn.setEnabled(false);
+                    }
+                }
+            }
+        });
+    }
+}
+
+
+AndroidManifest.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.signup_135">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="signup_135"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Signup_135">
+        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
