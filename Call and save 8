@@ -1,0 +1,328 @@
+XML FILE
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="CALL AND SAVE APP"
+            android:textColor="@color/black"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+        <Space
+            android:id="@+id/space"
+            android:layout_below="@id/header"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:background="@color/black"
+            />
+
+        <EditText
+            android:id="@+id/result"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/space"
+            android:layout_marginStart="10dp"
+            android:hint="Enter Number Here"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/buttonClear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/space"
+            android:layout_marginStart="10dp"
+            android:layout_toRightOf="@id/result"
+            android:text="DEL"
+            android:textSize="20sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonOne"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_below="@id/result"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/one"
+            app:cornerRadius="35dp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonTwo"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="30dp"
+            app:cornerRadius="35dp"
+            android:layout_marginStart="30dp"
+            android:layout_below="@id/result"
+            android:layout_toRightOf="@id/buttonOne"
+            android:text="@string/two"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonThree"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="30dp"
+            app:cornerRadius="35dp"
+            android:layout_marginStart="30dp"
+            android:layout_below="@id/result"
+            android:layout_toRightOf="@id/buttonTwo"
+            android:text="@string/three"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonFour"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_below="@id/buttonOne"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/four"
+            app:cornerRadius="35dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonFive"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="30dp"
+            app:cornerRadius="35dp"
+            android:layout_marginStart="30dp"
+            android:layout_below="@id/buttonTwo"
+            android:layout_toRightOf="@id/buttonOne"
+            android:text="@string/five"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonSix"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="30dp"
+            app:cornerRadius="35dp"
+            android:layout_marginStart="30dp"
+            android:layout_below="@id/buttonThree"
+            android:layout_toRightOf="@id/buttonTwo"
+            android:text="@string/six"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonSeven"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_below="@id/buttonFour"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/seven"
+            app:cornerRadius="35dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonEight"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="30dp"
+            app:cornerRadius="35dp"
+            android:layout_marginStart="30dp"
+            android:layout_below="@id/buttonFive"
+            android:layout_toRightOf="@id/buttonOne"
+            android:text="@string/eight"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonNine"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="30dp"
+            app:cornerRadius="35dp"
+            android:layout_marginStart="30dp"
+            android:layout_below="@id/buttonSix"
+            android:layout_toRightOf="@id/buttonTwo"
+            android:text="@string/nine"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonStar"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_below="@id/buttonSeven"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/star"
+            app:cornerRadius="35dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonZero"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="30dp"
+            app:cornerRadius="35dp"
+            android:layout_marginStart="30dp"
+            android:layout_below="@id/buttonEight"
+            android:layout_toRightOf="@id/buttonOne"
+            android:text="@string/zero"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonHash"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="30dp"
+            app:cornerRadius="35dp"
+            android:layout_marginStart="30dp"
+            android:layout_below="@id/buttonNine"
+            android:layout_toRightOf="@id/buttonTwo"
+            android:text="@string/hash"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/call"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/buttonZero"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="30dp"
+
+            android:text="CALL"
+            app:cornerRadius="35dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/buttonZero"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_toRightOf="@id/call"
+            android:text="SAVE"
+            app:cornerRadius="35dp" />
+    </RelativeLayout>
+
+
+</layout>
+JAVA FILE
+package com.example.callandsave;
+
+
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.RequiresApi;
+
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.telephony.PhoneNumberUtils;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
+import android.text.SpannableString;
+import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
+
+import com.example.callandsave.databinding.ActivityMainBinding;
+
+
+public class MainActivity extends AppCompatActivity {
+    private ActivityMainBinding binding;
+    private static final int REQUEST_CALL=1;
+    private EditText mEditPhoneNumber;
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @SuppressLint("SetTextI18n")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = (ActivityMainBinding) DataBindingUtil.setContentView(this, R.layout.activity_main);
+
+        Button buttonNine = findViewById(R.id.buttonNine);
+        Button buttonEight = findViewById(R.id.buttonEight);
+        Button buttonSeven = findViewById(R.id.buttonSeven);
+        Button buttonSix = findViewById(R.id.buttonSix);
+        Button buttonFive = findViewById(R.id.buttonFive);
+        Button buttonFour = findViewById(R.id.buttonFour);
+        Button buttonThree = findViewById(R.id.buttonThree);
+        Button buttonTwo = findViewById(R.id.buttonTwo);
+        Button buttonOne = findViewById(R.id.buttonOne);
+        Button buttonZero = findViewById(R.id.buttonZero);
+        Button buttonClear = findViewById(R.id.buttonClear);
+        Button call = findViewById(R.id.call);
+        Button buttonSave = findViewById(R.id.save);
+        Button buttonStar = findViewById(R.id.buttonStar);
+        Button buttonHash = findViewById(R.id.buttonHash);
+
+        EditText text = (EditText) findViewById(R.id.result);
+        PhoneNumberUtils.formatNumber(text.getText().toString());
+
+        binding.result.setShowSoftInputOnFocus(false);
+
+        binding.buttonZero.setOnClickListener(v ->  binding.result.setText(binding.result.getText() + "0"));
+        binding.buttonOne.setOnClickListener(v -> binding.result.setText(binding.result.getText() + "1"));
+        binding.buttonTwo.setOnClickListener(v -> binding.result.setText(binding.result.getText() + "2"));
+        binding.buttonThree.setOnClickListener(v -> binding.result.setText(binding.result.getText() + "3"));
+        binding.buttonFour.setOnClickListener(v -> binding.result.setText(binding.result.getText() + "4"));
+        binding.buttonFive.setOnClickListener(v -> binding.result.setText(binding.result.getText() + "5"));
+        binding.buttonSix.setOnClickListener(v -> binding.result.setText(binding.result.getText() + "6"));
+        binding.buttonSeven.setOnClickListener(v -> binding.result.setText(binding.result.getText() + "7"));
+        binding.buttonEight.setOnClickListener(v -> binding.result.setText(binding.result.getText() + "8"));
+        binding.buttonNine.setOnClickListener(v -> binding.result.setText(binding.result.getText() + "9"));
+        binding.buttonStar.setOnClickListener(v -> binding.result.setText(binding.result.getText() + "*"));
+        binding.buttonHash.setOnClickListener(v -> binding.result.setText(binding.result.getText() + "#"));
+
+        binding.call.setOnClickListener(v->{
+            if(binding.result.getText().length() > 0) {
+                String phStr = "tel:" +binding.result.getText().toString();
+                makePhoneCall(phStr);
+            }else{
+                Toast.makeText(MainActivity.this, "Unable to call",Toast.LENGTH_SHORT).show();
+            }
+        });
+        binding.buttonClear.setOnClickListener(v -> {
+            if(binding.result.getText().length() > 0) {
+                CharSequence currentText = binding.result.getText();
+                binding.result.setText(currentText.subSequence(0, currentText.length()-1));
+            }
+            else {
+                binding.result.setText("");
+            }
+        });
+        binding.save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!binding.result.getText().toString().isEmpty()){
+                    String phoneNumber=binding.result.getText().toString();
+                    Intent intent = new Intent(Intent.ACTION_INSERT);
+                    intent.setType(ContactsContract.RawContacts.CONTENT_TYPE);
+                    intent.putExtra(ContactsContract.Intents.Insert.PHONE, phoneNumber);
+                }
+            }
+        });
+    }
+    private void makePhoneCall(String PhStr){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse(PhStr));
+            startActivity(callIntent);
+        }
+    }
+
+}
