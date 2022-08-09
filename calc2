@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/teal_700"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:text="SIMPLE CALCULATOR"
+            android:textColor="@color/white"
+            android:textSize="28dp"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/exp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:minHeight="48dp"
+            android:text=""
+            android:background="@color/white"
+            android:textSize="20dp" />
+        <TextView
+            android:layout_width="180dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="38dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/white"
+            android:text="Result"
+            android:textSize="24dp" />
+        <TextView
+            android:id="@+id/result"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="35dp"
+            android:layout_marginLeft="50dp"
+            >
+
+            <Button
+                android:id="@+id/b7"
+                android:layout_width="68dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="2dp"
+                android:width="20dp"
+                android:text="7"
+                android:textSize="30sp" />
+
+            <Button
+                android:id="@+id/b8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2dp"
+                android:width="20dp"
+                android:text="8"
+                android:textSize="30sp" />
+
+            <Button
+                android:id="@+id/b9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:width="20dp"
+                android:layout_marginRight="2dp"
+                android:text="9"
+                android:textSize="30sp"/>
+            <Button
+                android:id="@+id/plus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:width="20dp"
+                android:layout_marginRight="2dp"
+                android:text="+"
+                android:textSize="30sp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:orientation="horizontal"
+            >
+            <Button
+                android:id="@+id/b4"
+                android:layout_width="68dp"
+                android:layout_height="match_parent"
+                android:width="20dp"
+                android:layout_marginRight="2dp"
+                android:text="4"
+                android:textSize="30sp" />
+            <Button
+                android:id="@+id/b5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:width="20dp"
+                android:layout_marginRight="2dp"
+                android:text="5"
+                android:textSize="30sp"/>
+            <Button
+                android:id="@+id/b6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:width="20dp"
+                android:layout_marginRight="2dp"
+                android:text="6"
+                android:textSize="30sp"/>
+            <Button
+                android:id="@+id/minus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:width="20dp"
+                android:layout_marginRight="2dp"
+                android:text="-"
+                android:textSize="30sp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="50dp"
+            >
+            <Button
+                android:id="@+id/b1"
+                android:layout_width="68dp"
+                android:layout_height="match_parent"
+                android:width="20dp"
+                android:layout_marginRight="2dp"
+                android:text="1"
+                android:textSize="30sp" />
+            <Button
+                android:id="@+id/b2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:width="20dp"
+                android:layout_marginRight="2dp"
+                android:text="2"
+                android:textSize="30sp"/>
+            <Button
+                android:id="@+id/b3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:width="20dp"
+                android:layout_marginRight="2dp"
+                android:text="3"
+                android:textSize="30sp"/>
+            <Button
+                android:id="@+id/div"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:width="20dp"
+                android:layout_marginRight="2dp"
+                android:text="/"
+                android:textSize="30sp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="50dp"
+            >
+            <Button
+                android:id="@+id/dot"
+                android:layout_width="68dp"
+                android:layout_height="match_parent"
+                android:width="20dp"
+                android:layout_marginRight="2dp"
+                android:text="."
+                android:textSize="30sp"/>
+            <Button
+                android:id="@+id/b0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:width="20dp"
+                android:layout_marginRight="2dp"
+                android:text="0"
+                android:textSize="30sp" />
+            <Button
+                android:id="@+id/equals"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:width="20dp"
+                android:layout_marginRight="2dp"
+                android:text="="
+                android:textSize="30sp"/>
+            <Button
+                android:id="@+id/mul"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:width="20dp"
+                android:layout_marginRight="2dp"
+                android:text="*"
+                android:textSize="30sp"/>
+        </LinearLayout>
+        <Button
+            android:id="@+id/clear"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="30dp"
+            android:text="C"
+            android:layout_marginLeft="50dp"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+</LinearLayout>
+
+
+
+JAVA CODE 
+
+
+package com.example.calc;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    Button B1,B2,B3,B4,B5,B6,B7,B8,B9,B0;
+    Button BAdd,BSub,BMul,BDiv;
+    Button BEqual,BDot,BClear;
+    TextView TextResult,input;
+    Boolean A=false,S=false,D=false,M=false;
+    Double op1,op2;
+    String temp="";
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        BAdd=findViewById(R.id.plus);
+        input = findViewById(R.id.exp);
+        TextResult = findViewById(R.id.result);
+        BClear=findViewById(R.id.clear);
+        BClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                input.setText("");
+                TextResult.setText("");
+                temp="";
+                op1=0.0;
+                op2=0.0;
+                A=false;
+                S=false;
+                D=false;
+                M=false;
+            }
+        });
+        BAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                op1 = Double.parseDouble(input.getText().toString());
+                input.setText(input.getText()+"+");
+                A = true;
+            }
+        });
+        BSub=findViewById(R.id.minus);
+        BSub.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                op1 = Double.parseDouble(input.getText().toString());
+                input.setText(input.getText()+"-");
+                S=true;
+            }
+        });
+        BMul=findViewById(R.id.mul);
+        BMul.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                op1 = Double.parseDouble(input.getText().toString());
+                input.setText(input.getText()+"*");
+                M=true;
+            }
+        });
+        BDiv=findViewById(R.id.div);
+        BDiv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                op1 = Double.parseDouble(input.getText().toString());
+                input.setText(input.getText()+"/");
+                D=true;
+            }
+        });
+        BDot=findViewById(R.id.dot);
+        BDot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(A || D|| M||S)temp+=".";
+                input.setText(input.getText()+".");
+            }
+        });
+        B0=findViewById(R.id.b0);
+        B0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(A || D|| M||S)temp+="0";
+                input.setText(input.getText()+"0");
+            }
+        });
+        B1=findViewById(R.id.b1);
+        B1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(A || D|| M||S)temp+="1";
+                input.setText(input.getText()+"1");
+            }
+        });
+        B2=findViewById(R.id.b2);
+        B2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(A || D|| M||S)temp+="2";
+                input.setText(input.getText()+"2");
+            }
+        });
+        B3=findViewById(R.id.b3);
+        B3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(A || D|| M||S)temp+="3";
+                input.setText(input.getText()+"3");
+            }
+        });
+        B4=findViewById(R.id.b4);
+        B4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(A || D|| M||S)temp+="4";
+                input.setText(input.getText()+"4");
+            }
+        });
+        B5=findViewById(R.id.b5);
+        B5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(A || D|| M||S)temp+="5";
+                input.setText(input.getText()+"5");
+            }
+        });
+        B6=findViewById(R.id.b6);
+        B6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(A || D|| M||S)temp+="6";
+                input.setText(input.getText()+"6");
+            }
+        });
+        B7=findViewById(R.id.b7);
+        B7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(A || D|| M||S)temp+="7";
+                input.setText(input.getText()+"7");
+            }
+        });
+        B8=findViewById(R.id.b8);
+        B8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(A || D|| M||S)temp+="8";
+                input.setText(input.getText()+"8");
+            }
+        });
+        B9=findViewById(R.id.b9);
+        B9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(A || D|| M||S)temp+="9";
+                input.setText(input.getText()+"9");
+            }
+        });
+        TextResult=findViewById(R.id.result);
+        TextResult.setText("");
+        BEqual=findViewById(R.id.equals);
+        BEqual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, ""+temp, Toast.LENGTH_SHORT).show();
+                op2 = Double.parseDouble(temp);
+                if(A){
+                    TextResult.setText(op1+op2+"");
+                }else if(D){
+                    TextResult.setText(op1/op2+"");
+                }else if(M){
+                    TextResult.setText(op1*op2+"");
+                }else if(S){
+                    TextResult.setText(op1-op2+"");
+                }else{
+                    TextResult.setText("ERROR");
+                }
+            }
+        });
+    }
+}
