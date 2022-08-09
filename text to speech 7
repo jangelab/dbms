@@ -1,118 +1,80 @@
-XML file
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:transitionGroup="true">
+    tools:context=".MainActivity">
 
-    <TextView android:text="Text to Speech Application" android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
-        android:id="@+id/textview"
-        android:textSize="30dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:src="@drawable/ic_launcher_foreground"
-        android:layout_centerHorizontal="true"
-        android:theme="@style/Base.TextAppearance.AppCompat" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="87dp"
+        android:layout_marginBottom="461dp"
+        android:text="     TextToSpeech"
+        android:textSize="30sp" />
 
     <EditText
+        android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
-        android:layout_below="@+id/imageView"
-        android:layout_marginTop="46dp"
-        android:hint="Enter Text"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textColor="#ff7aff10"
-        android:textColorHint="#ffff23d1" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="105dp"
+        android:layout_marginBottom="373dp"
+        android:ems="10"
+        android:hint="Enter text here"
+        android:inputType="textPersonName" />
 
     <Button
+        android:id="@+id/convert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Convert Text to Speech"
-        android:id="@+id/button"
-        android:layout_below="@+id/editText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="46dp" />
-
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="153dp"
+        android:layout_marginBottom="232dp"
+        android:background="#6CEC71"
+        android:onClick="convert"
+        android:text="CONVERT" />
 </RelativeLayout>
 
-Java file
-package com.example.texttospeech_revision;
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.media.AudioManager;
-import android.os.Build;
+TEXT2SPEECH JAVA
+
+package com.example.texttospeech;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-    TextToSpeech mTts;
-
+    EditText e1;
+    TextToSpeech t1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        EditText ed1 = (EditText) findViewById(R.id.editText);
-        Button b1 = (Button) findViewById(R.id.button);
-
-        mTts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+        e1=findViewById(R.id.editText);
+        t1=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
-                if (status == TextToSpeech.SUCCESS) {
-                    int result = mTts.setLanguage(Locale.US);
-                    if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                        /* Unsuccessful - operation result*/
-                        Toast.makeText(getApplicationContext(), " The Language is not supported", Toast.LENGTH_SHORT).show();
-                    } else {
-                        /* Successful - operation result*/
-                        b1.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String toSpeak = ed1.getText().toString();
-                                speak_text(toSpeak); //call function, speak
-                            }
-                        });
-                    }
-                } else {
-                    Toast.makeText(getApplicationContext(), "Init Failed", Toast.LENGTH_SHORT).show();
+
+                if(status!=TextToSpeech.ERROR){
+                    t1.setLanguage(Locale.UK);
                 }
             }
         });
-        setVolumeControlStream(AudioManager.STREAM_MUSIC);//set the audio stream type with music control stream
     }
-
-    void speak_text(String s) {
-        Bundle bundle = new Bundle();
-        bundle.putInt(TextToSpeech.Engine.KEY_PARAM_STREAM, AudioManager.STREAM_MUSIC);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            /* Call the function speak - using bundle*/
-            mTts.speak(s, TextToSpeech.QUEUE_FLUSH, bundle, null);
-            //  mTts.speak(s,TextToSpeech.QUEUE_FLUSH,null,null);
-        }
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        /* Destroy engine*/
-        if (mTts != null) {
-            mTts.stop();
-            mTts.shutdown();
-        }
+    public void convert(View V){
+        String tospeak=e1.getText().toString();
+        t1.speak(tospeak,TextToSpeech.QUEUE_FLUSH,null);
     }
 }
+
