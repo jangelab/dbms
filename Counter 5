@@ -1,134 +1,127 @@
-XML FILE
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#282c34"
     tools:context=".MainActivity">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:paddingTop="20dp"
-        android:text="counter application"
-        android:textAllCaps="true"
-        android:textColor="#abb2bf"
-        android:textSize="58dp"
-        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="#DCE398"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="143dp"
+        tools:layout_editor_absoluteY="153dp">
 
         <TextView
-            android:id="@+id/counter_value"
+            android:id="@+id/textView"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="70dp"
+            android:background="#4CAF50"
             android:gravity="center"
-            android:text="Counter value"
-            android:textColor="#d19a66"
-            android:textSize="48dp" />
+            android:text="COUNTER APPLICATION"
+            android:textColor="#221F1F"
+            android:textSize="35sp" />
 
-        <LinearLayout
+        <EditText
+            android:id="@+id/count"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="50dp"
+            android:background="#009688"
+            android:ems="10"
             android:gravity="center"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:inputType="textPersonName"
+            android:text="counter"
+            android:textSize="30sp" />
 
-            <Button
-                android:id="@+id/start_button"
-                android:layout_width="300dp"
-                android:layout_height="100dp"                android:text="start"
-                android:textAllCaps="true"
-                android:textSize="24dp" />
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="20dp"/>
+        <Button
+            android:id="@+id/start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="100dp"
+            android:layout_marginRight="100dp"
+            android:text="start" />
 
-            <Button
-                android:id="@+id/stop_button"
-                android:layout_width="300dp"
-                android:layout_height="100dp"
-                android:text="stop"
-                android:textAllCaps="true"
-                android:textSize="24dp" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/stop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="100dp"
+            android:layout_marginRight="100dp"
+            android:text="stop" />
     </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
-</LinearLayout>
 
-JAVA FILE
-package com.example.counter_app_revision;
+COUNTER JAVA
+
+package com.example.counter;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 public class MainActivity extends AppCompatActivity {
-
-    int counterVal = 0; //counting variable
+    int counter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        /* Text view for counter value*/
-        TextView counterTextvw = findViewById(R.id.counter_value);
-        Button startBtn = findViewById(R.id.start_button);//button view for start button
-        Button stopBtn = findViewById(R.id.stop_button);//button view for stop button
-
-        Handler handler = new Handler();
-
-        startBtn.setOnClickListener(new View.OnClickListener() {
+        TextView textcounter = findViewById(R.id.count);
+        Button startbutton = findViewById(R.id.start);
+        Button stopbutton = findViewById(R.id.stop);
+        startbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        counterVal = 0;
-                        while (!stopBtn.isPressed()) {
-
-                            try {
+                        while(!stopbutton.isPressed())
+                        {
+                            try{
                                 Thread.sleep(500);
-                            } catch (InterruptedException e) {
+                            }catch (InterruptedException e)
+                            {
                                 e.printStackTrace();
                                 return;
                             }
-                            counterTextvw.post(new Runnable() {
+                            textcounter.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    counterTextvw.setText("" + counterVal++);
+                                    counter++;
+                                    textcounter.setText(""+counter);
                                 }
                             });
                         }
                     }
                 }).start();
-           }
-     });
-
-        stopBtn.setOnClickListener(new View.OnClickListener() {
+            }
+        });
+        stopbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(counter==0)
+                {
+                    textcounter.setText(""+counter);
+                }
                 try{
                     Thread.sleep(500);
                     Thread.interrupted();
-                }catch (Exception e){
+                    counter=0;
+                }catch(Exception e){
                     e.printStackTrace();
                 }
-                // handler.removeCallbacksAndMessages(null);
             }
         });
     }
